@@ -1,0 +1,21 @@
+pipeline:
+  ingest:
+    max_size_mb: 512
+    allow_unsigned: true
+  analyze:
+    entropy_threshold: 7.2
+    min_section_size: 0x200
+  decrypt:
+    max_attempts: 8
+    brute_force_xor: true
+    xor_key_range: [1, 255]
+  dump:
+    output_dir: output
+    preserve_headers: true
+    rename_recovered: true
+
+logging:
+  level: INFO
+  file: dll-decryptor.log
+
+signatures: config/signatures.yaml
