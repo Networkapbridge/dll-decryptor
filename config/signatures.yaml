@@ -1,0 +1,26 @@
+# Detection signatures for known DLL protection schemes.
+# Each entry maps a scheme name to heuristic predicates.
+schemes:
+  xor_single_byte:
+    entropy_min: 6.8
+    section_hint: [".text", ".data"]
+    xor_key_range: [1, 255]
+
+  rc4_standard:
+    entropy_min: 7.4
+    import_hints: ["CryptDecrypt", "SystemFunction032"]
+    section_hint: [".rdata"]
+
+  aes_cbc_embedded_key:
+    entropy_min: 7.6
+    import_hints: ["BCryptDecrypt", "CryptDecrypt"]
+    notes: "Key often embedded in .rdata trailer"
+
+  vmprotect_like:
+    entropy_min: 7.9
+    section_hint: [".vmp0", ".vmp1", ".themida"]
+    notes: "Detect only; full devirtualization out of scope"
+
+  custom_rolling_xor:
+    entropy_min: 6.5
+    notes: "Try sliding-window XOR recovery"
